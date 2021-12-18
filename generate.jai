@@ -3,19 +3,26 @@ COMPILE_DEBUG :: false;
 
 SQLITE_PATH :: "src";
 
+#if OS == .LINUX {
+	LIB_PATH :: "linux";
+} else #if OS == .WINDOWS {
+	LIB_PATH :: "windows";
+} else #if OS == .MACOS {
+	LIB_PATH :: "macos";
+} else {
+	#assert(false);
+}
+
 #run {
     set_build_options_dc(.{do_output=false});
 
     #if COMPILE {
         src_files: [..] string;
         array_add(*src_files, tprint("%/sqlite3.c", SQLITE_PATH));
-        #if OS == .LINUX {
-            make_directory_if_it_does_not_exist("linux");
-            build_cpp_dynamic_lib("linux/sqlite", ..src_files, debug=COMPILE_DEBUG);
-            build_cpp_static_lib("linux/sqlite", ..src_files, debug=COMPILE_DEBUG);
-        } else {
-            assert(false);
-        }
+		make_directory_if_it_does_not_exist(LIB_PATH);
+		lib_name := tprint("%/sqlite", LIB_PATH);
+		build_cpp_dynamic_lib(lib_name, ..src_files, debug=COMPILE_DEBUG);
+		build_cpp_static_lib(lib_name, ..src_files, debug=COMPILE_DEBUG);
     }
 
     write_file := true;
@@ -31,12 +38,12 @@ generate_bindings :: (write_file := true) {
     opts: Generate_Bindings_Options;
     {
         using opts;
+	    generate_foreign_library_declarations = false;
+		array_add(*libpaths, LIB_PATH);
 
-        #if OS == .LINUX {
-            array_add(*libpaths,      "linux");
+        #if OS == .LINUX || OS == .MACOS {
             output_filename          = "unix.jai";
         } else #if OS == .WINDOWS {
-            array_add(*libpaths,      "windows");
             output_filename          = "windows.jai";
         } else {
             assert(false);
@@ -55,6 +62,7 @@ generate_bindings :: (write_file := true) {
     show_generator_results();
 
     if write_file {
+		append(*bindings_builder, CODE_SUFFIX);
         success = write_entire_file(output_filename, bindings_builder);
         if !success {
             log_error("Could not write generated output to \"%\"\n", output_filename);
@@ -81,4 +89,15 @@ get_compiler_path :: () -> string {
 #import "File";
 #import "String";
 #import "System";
+
+CODE_SUFFIX :: #string END
+
+#if OS == .LINUX {
+	sqlite :: #foreign_library "linux/sqlite";
+} else #if OS == .MACOS {
+	sqlite :: #foreign_library "macos/sqlite";
+} else #if OS == .WINDOWS {
+	sqlite :: #foreign_library "windows/sqlite";
+}
+END
 
