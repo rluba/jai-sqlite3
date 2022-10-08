@@ -13,9 +13,19 @@ SQLITE_PATH :: "src";
 	#assert(false);
 }
 
+DECLARATIONS_TO_OMIT :: string.[
+    "SQLITE_STATIC",    // We cannot convert this to valid Jai at the moment.
+    "SQLITE_TRANSIENT", // We cannot convert this to valid Jai at the moment.
+];
+
 #run {
     set_build_options_dc(.{do_output=false});
+    if !generate_bindings() {
+        compiler_set_workspace_status(.FAILED);
+    }
+}
 
+generate_bindings :: () -> bool {
     #if COMPILE {
         src_files: [..] string;
         array_add(*src_files, tprint("%/sqlite3.c", SQLITE_PATH));
@@ -25,15 +35,6 @@ SQLITE_PATH :: "src";
 		build_cpp_static_lib(lib_name, ..src_files, debug=COMPILE_DEBUG);
     }
 
-    write_file := true;
-    user_args := compiler_get_command_line_arguments();
-    for user_args {
-        if it == "-no_write"    write_file = false;
-    }
-    generate_bindings(write_file = write_file);
-};
-
-generate_bindings :: (write_file := true) {
     output_filename: string;
     opts: Generate_Bindings_Options;
     {
@@ -42,45 +43,41 @@ generate_bindings :: (write_file := true) {
 		array_add(*libpaths, LIB_PATH);
 
         #if OS == .LINUX || OS == .MACOS {
-            output_filename          = "unix.jai";
+            output_filename = "unix.jai";
         } else #if OS == .WINDOWS {
-            output_filename          = "windows.jai";
+            output_filename = "windows.jai";
         } else {
             assert(false);
         }
 
-        array_add(*libnames,      "sqlite");
-        array_add(*system_include_paths, tprint("%/modules/Bindings_Generator/bin/clang/11.1.0/include", get_compiler_path()));
+        array_add(*libnames, "sqlite");
+        array_add(*system_include_paths, GENERATOR_DEFAULT_SYSTEM_INCLUDE_PATH);
         array_add(*include_paths, SQLITE_PATH);
-        array_add(*source_files,  tprint("%/sqlite3.h", SQLITE_PATH));
+        array_add(*source_files, tprint("%/sqlite3.h", SQLITE_PATH));
         array_add(*extra_clang_arguments, "-x", "c");
+
+        footer = CODE_SUFFIX;
+        visitor = sqlite_visitor;
+        
+        try_to_preserve_comments = false;
+        generate_compile_time_struct_checks = false;
     }
 
-    bindings_builder, success := generate_bindings(opts);
-    if !success     return;
-    defer free_buffers(*bindings_builder);
-    show_generator_results();
-
-    if write_file {
-		append(*bindings_builder, CODE_SUFFIX);
-        success = write_entire_file(output_filename, bindings_builder);
-        if !success {
-            log_error("Could not write generated output to \"%\"\n", output_filename);
-            return;
-        }    
-        log("\nOK! generated '%'\n", output_filename);
-    }
+    return generate_bindings(opts, output_filename);
 }
 
 #scope_file
 
-get_compiler_path :: () -> string {
-	// @Hack since there is currently nothing in the compiler that exposes this directly
-	options := get_build_options();
-	default_import_dir := options.import_path[0];
-	return slice(default_import_dir, 0, find_index_from_right(default_import_dir, "/modules/"));
-}
+sqlite_visitor :: (decl: *Declaration, parent_decl: *Declaration) -> Declaration_Visit_Result { 
+    if !parent_decl {
+        if array_find(DECLARATIONS_TO_OMIT, decl.name) {
+            decl.decl_flags |= .OMIT_FROM_OUTPUT;
+            return .STOP;
+        }
+    }
 
+    return .RECURSE;
+}
 
 #import "Basic";
 #import "Bindings_Generator";
