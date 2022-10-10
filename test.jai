@@ -19,9 +19,44 @@ do_test :: () -> s32 {
     err_msg: *u8;
     result = sqlite3_exec(db, "SELECT 1 as num, NULL as something", callback, null, *err_msg);
     if result != 0 {
-        log_error("SQL error: %\n", to_string(err_msg));
+        log_error("SQL error: %", to_string(err_msg));
         sqlite3_free(err_msg);
+        return 1;
     }
+
+    statement: *sqlite3_stmt;
+    result = sqlite3_prepare_v2(db, "SELECT ?1 as text", -1, *statement, null);
+    if result != 0 {
+        log_error("SQL error: %", to_string(err_msg));
+        sqlite3_free(err_msg);
+        return 1;
+    }
+
+    defer {
+        result = sqlite3_finalize(statement);
+        if result != 0 {
+            log_error("SQL error: %", to_string(err_msg));
+            sqlite3_free(err_msg);
+            return 1;
+        }
+    }
+
+    result = sqlite3_bind_text(statement, 1, "Hello", -1, SQLITE_STATIC);
+    if result != 0 {
+        log_error("SQL error: %", to_string(err_msg));
+        sqlite3_free(err_msg);
+        return 1;
+    }
+
+    result = sqlite3_step(statement); 
+    if result != SQLITE_ROW {
+        log_error("Unexpected return value from sqlite3_step: %", result);
+        return 1;
+    }
+
+    c_message := sqlite3_column_text(statement, 0);
+    message := to_string(c_message);
+    log("Message was: \"%\"", message);
 
     return 0;
 }

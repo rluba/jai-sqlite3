@@ -14,8 +14,6 @@ SQLITE_PATH :: "src";
 }
 
 DECLARATIONS_TO_OMIT :: string.[
-    "SQLITE_STATIC",    // We cannot convert this to valid Jai at the moment.
-    "SQLITE_TRANSIENT", // We cannot convert this to valid Jai at the moment.
 ];
 
 #run {

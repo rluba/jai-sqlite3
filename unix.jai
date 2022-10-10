@@ -357,6 +357,9 @@ SQLITE_DIRECTONLY :: 0x000080000;
 SQLITE_SUBTYPE :: 0x000100000;
 SQLITE_INNOCUOUS :: 0x000200000;
 
+SQLITE_STATIC :: cast(sqlite3_destructor_type)0;
+SQLITE_TRANSIENT :: cast,trunc(sqlite3_destructor_type)-1;
+
 SQLITE_WIN32_DATA_DIRECTORY_TYPE :: 1;
 SQLITE_WIN32_TEMP_DIRECTORY_TYPE :: 2;
 
@@ -524,12 +527,12 @@ sqlite_uint64 :: u64;
 sqlite3_int64 :: sqlite_int64;
 sqlite3_uint64 :: sqlite_uint64;
 
-sqlite3_close :: (unk0: *sqlite3) -> s32 #foreign sqlite;
-sqlite3_close_v2 :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_close :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_close_v2 :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
-sqlite3_callback :: #type (unk0: *void, unk1: s32, unk2: **u8, unk3: **u8) -> s32 #c_call;
+sqlite3_callback :: #type (unknown0: *void, unknown1: s32, unknown2: **u8, unknown3: **u8) -> s32 #c_call;
 
-sqlite3_exec :: (unk0: *sqlite3, sql: *u8, callback: #type (unk0: *void, unk1: s32, unk2: **u8, unk3: **u8) -> s32 #c_call, unk1: *void, errmsg: **u8) -> s32 #foreign sqlite;
+sqlite3_exec :: (unknown0: *sqlite3, sql: *u8, callback: #type (unknown0: *void, unknown1: s32, unknown2: **u8, unknown3: **u8) -> s32 #c_call, unknown1: *void, errmsg: **u8) -> s32 #foreign sqlite;
 
 sqlite3_file :: struct {
     pMethods: *sqlite3_io_methods;
@@ -537,26 +540,26 @@ sqlite3_file :: struct {
 
 sqlite3_io_methods :: struct {
     iVersion:               s32;
-    xClose:                 #type (unk0: *sqlite3_file) -> s32 #c_call;
-    xRead:                  #type (unk0: *sqlite3_file, unk1: *void, iAmt: s32, iOfst: sqlite3_int64) -> s32 #c_call;
-    xWrite:                 #type (unk0: *sqlite3_file, unk1: *void, iAmt: s32, iOfst: sqlite3_int64) -> s32 #c_call;
-    xTruncate:              #type (unk0: *sqlite3_file, size: sqlite3_int64) -> s32 #c_call;
-    xSync:                  #type (unk0: *sqlite3_file, flags: s32) -> s32 #c_call;
-    xFileSize:              #type (unk0: *sqlite3_file, pSize: *sqlite3_int64) -> s32 #c_call;
-    xLock:                  #type (unk0: *sqlite3_file, unk1: s32) -> s32 #c_call;
-    xUnlock:                #type (unk0: *sqlite3_file, unk1: s32) -> s32 #c_call;
-    xCheckReservedLock:     #type (unk0: *sqlite3_file, pResOut: *s32) -> s32 #c_call;
-    xFileControl:           #type (unk0: *sqlite3_file, op: s32, pArg: *void) -> s32 #c_call;
-    xSectorSize:            #type (unk0: *sqlite3_file) -> s32 #c_call;
-    xDeviceCharacteristics: #type (unk0: *sqlite3_file) -> s32 #c_call;
+    xClose:                 #type (unknown0: *sqlite3_file) -> s32 #c_call;
+    xRead:                  #type (unknown0: *sqlite3_file, unknown1: *void, iAmt: s32, iOfst: sqlite3_int64) -> s32 #c_call;
+    xWrite:                 #type (unknown0: *sqlite3_file, unknown1: *void, iAmt: s32, iOfst: sqlite3_int64) -> s32 #c_call;
+    xTruncate:              #type (unknown0: *sqlite3_file, size: sqlite3_int64) -> s32 #c_call;
+    xSync:                  #type (unknown0: *sqlite3_file, flags: s32) -> s32 #c_call;
+    xFileSize:              #type (unknown0: *sqlite3_file, pSize: *sqlite3_int64) -> s32 #c_call;
+    xLock:                  #type (unknown0: *sqlite3_file, unknown1: s32) -> s32 #c_call;
+    xUnlock:                #type (unknown0: *sqlite3_file, unknown1: s32) -> s32 #c_call;
+    xCheckReservedLock:     #type (unknown0: *sqlite3_file, pResOut: *s32) -> s32 #c_call;
+    xFileControl:           #type (unknown0: *sqlite3_file, op: s32, pArg: *void) -> s32 #c_call;
+    xSectorSize:            #type (unknown0: *sqlite3_file) -> s32 #c_call;
+    xDeviceCharacteristics: #type (unknown0: *sqlite3_file) -> s32 #c_call;
 
-    xShmMap:                #type (unk0: *sqlite3_file, iPg: s32, pgsz: s32, unk1: s32, unk2: **void) -> s32 #c_call;
-    xShmLock:               #type (unk0: *sqlite3_file, offset: s32, n: s32, flags: s32) -> s32 #c_call;
-    xShmBarrier:            #type (unk0: *sqlite3_file) -> void #c_call;
-    xShmUnmap:              #type (unk0: *sqlite3_file, deleteFlag: s32) -> s32 #c_call;
+    xShmMap:                #type (unknown0: *sqlite3_file, iPg: s32, pgsz: s32, unknown1: s32, unknown2: **void) -> s32 #c_call;
+    xShmLock:               #type (unknown0: *sqlite3_file, offset: s32, n: s32, flags: s32) -> s32 #c_call;
+    xShmBarrier:            #type (unknown0: *sqlite3_file) -> void #c_call;
+    xShmUnmap:              #type (unknown0: *sqlite3_file, deleteFlag: s32) -> s32 #c_call;
 
-    xFetch:                 #type (unk0: *sqlite3_file, iOfst: sqlite3_int64, iAmt: s32, pp: **void) -> s32 #c_call;
-    xUnfetch:               #type (unk0: *sqlite3_file, iOfst: sqlite3_int64, p: *void) -> s32 #c_call;
+    xFetch:                 #type (unknown0: *sqlite3_file, iOfst: sqlite3_int64, iAmt: s32, pp: **void) -> s32 #c_call;
+    xUnfetch:               #type (unknown0: *sqlite3_file, iOfst: sqlite3_int64, p: *void) -> s32 #c_call;
 }
 
 sqlite3_mutex :: struct {}
@@ -571,25 +574,25 @@ sqlite3_vfs :: struct {
     pNext:             *sqlite3_vfs;
     zName:             *u8;
     pAppData:          *void;
-    xOpen:             #type (unk0: *sqlite3_vfs, zName: *u8, unk1: *sqlite3_file, flags: s32, pOutFlags: *s32) -> s32 #c_call;
+    xOpen:             #type (unknown0: *sqlite3_vfs, zName: *u8, unknown1: *sqlite3_file, flags: s32, pOutFlags: *s32) -> s32 #c_call;
 
-    xDelete:           #type (unk0: *sqlite3_vfs, zName: *u8, syncDir: s32) -> s32 #c_call;
-    xAccess:           #type (unk0: *sqlite3_vfs, zName: *u8, flags: s32, pResOut: *s32) -> s32 #c_call;
-    xFullPathname:     #type (unk0: *sqlite3_vfs, zName: *u8, nOut: s32, zOut: *u8) -> s32 #c_call;
-    xDlOpen:           #type (unk0: *sqlite3_vfs, zFilename: *u8) -> *void #c_call;
-    xDlError:          #type (unk0: *sqlite3_vfs, nByte: s32, zErrMsg: *u8) -> void #c_call;
-    xDlSym:            #type (unk0: *sqlite3_vfs, unk1: *void, zSymbol: *u8) -> ((unk0: *sqlite3_vfs, unk1: *void, zSymbol: *u8) -> void #c_call) #c_call;
-    xDlClose:          #type (unk0: *sqlite3_vfs, unk1: *void) -> void #c_call;
-    xRandomness:       #type (unk0: *sqlite3_vfs, nByte: s32, zOut: *u8) -> s32 #c_call;
-    xSleep:            #type (unk0: *sqlite3_vfs, microseconds: s32) -> s32 #c_call;
-    xCurrentTime:      #type (unk0: *sqlite3_vfs, unk1: *float64) -> s32 #c_call;
-    xGetLastError:     #type (unk0: *sqlite3_vfs, unk1: s32, unk2: *u8) -> s32 #c_call;
+    xDelete:           #type (unknown0: *sqlite3_vfs, zName: *u8, syncDir: s32) -> s32 #c_call;
+    xAccess:           #type (unknown0: *sqlite3_vfs, zName: *u8, flags: s32, pResOut: *s32) -> s32 #c_call;
+    xFullPathname:     #type (unknown0: *sqlite3_vfs, zName: *u8, nOut: s32, zOut: *u8) -> s32 #c_call;
+    xDlOpen:           #type (unknown0: *sqlite3_vfs, zFilename: *u8) -> *void #c_call;
+    xDlError:          #type (unknown0: *sqlite3_vfs, nByte: s32, zErrMsg: *u8) -> void #c_call;
+    xDlSym:            #type (unknown0: *sqlite3_vfs, unknown1: *void, zSymbol: *u8) -> ((unknown0: *sqlite3_vfs, unknown1: *void, zSymbol: *u8) -> void #c_call) #c_call;
+    xDlClose:          #type (unknown0: *sqlite3_vfs, unknown1: *void) -> void #c_call;
+    xRandomness:       #type (unknown0: *sqlite3_vfs, nByte: s32, zOut: *u8) -> s32 #c_call;
+    xSleep:            #type (unknown0: *sqlite3_vfs, microseconds: s32) -> s32 #c_call;
+    xCurrentTime:      #type (unknown0: *sqlite3_vfs, unknown1: *float64) -> s32 #c_call;
+    xGetLastError:     #type (unknown0: *sqlite3_vfs, unknown1: s32, unknown2: *u8) -> s32 #c_call;
 
-    xCurrentTimeInt64: #type (unk0: *sqlite3_vfs, unk1: *sqlite3_int64) -> s32 #c_call;
+    xCurrentTimeInt64: #type (unknown0: *sqlite3_vfs, unknown1: *sqlite3_int64) -> s32 #c_call;
 
-    xSetSystemCall:    #type (unk0: *sqlite3_vfs, zName: *u8, unk1: sqlite3_syscall_ptr) -> s32 #c_call;
-    xGetSystemCall:    #type (unk0: *sqlite3_vfs, zName: *u8) -> sqlite3_syscall_ptr #c_call;
-    xNextSystemCall:   #type (unk0: *sqlite3_vfs, zName: *u8) -> *u8 #c_call;
+    xSetSystemCall:    #type (unknown0: *sqlite3_vfs, zName: *u8, unknown1: sqlite3_syscall_ptr) -> s32 #c_call;
+    xGetSystemCall:    #type (unknown0: *sqlite3_vfs, zName: *u8) -> sqlite3_syscall_ptr #c_call;
+    xNextSystemCall:   #type (unknown0: *sqlite3_vfs, zName: *u8) -> *u8 #c_call;
 }
 
 sqlite3_initialize :: () -> s32 #foreign sqlite;
@@ -597,87 +600,87 @@ sqlite3_shutdown :: () -> s32 #foreign sqlite;
 sqlite3_os_init :: () -> s32 #foreign sqlite;
 sqlite3_os_end :: () -> s32 #foreign sqlite;
 
-sqlite3_config :: (unk0: s32, __args: ..Any) -> s32 #foreign sqlite;
+sqlite3_config :: (unknown0: s32, __args: ..Any) -> s32 #foreign sqlite;
 
-sqlite3_db_config :: (unk0: *sqlite3, op: s32, __args: ..Any) -> s32 #foreign sqlite;
+sqlite3_db_config :: (unknown0: *sqlite3, op: s32, __args: ..Any) -> s32 #foreign sqlite;
 
 sqlite3_mem_methods :: struct {
-    xMalloc:   #type (unk0: s32) -> *void #c_call;
-    xFree:     #type (unk0: *void) -> void #c_call;
-    xRealloc:  #type (unk0: *void, unk1: s32) -> *void #c_call;
-    xSize:     #type (unk0: *void) -> s32 #c_call;
-    xRoundup:  #type (unk0: s32) -> s32 #c_call;
-    xInit:     #type (unk0: *void) -> s32 #c_call;
-    xShutdown: #type (unk0: *void) -> void #c_call;
+    xMalloc:   #type (unknown0: s32) -> *void #c_call;
+    xFree:     #type (unknown0: *void) -> void #c_call;
+    xRealloc:  #type (unknown0: *void, unknown1: s32) -> *void #c_call;
+    xSize:     #type (unknown0: *void) -> s32 #c_call;
+    xRoundup:  #type (unknown0: s32) -> s32 #c_call;
+    xInit:     #type (unknown0: *void) -> s32 #c_call;
+    xShutdown: #type (unknown0: *void) -> void #c_call;
     pAppData:  *void;
 }
 
-sqlite3_extended_result_codes :: (unk0: *sqlite3, onoff: s32) -> s32 #foreign sqlite;
+sqlite3_extended_result_codes :: (unknown0: *sqlite3, onoff: s32) -> s32 #foreign sqlite;
 
-sqlite3_last_insert_rowid :: (unk0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
+sqlite3_last_insert_rowid :: (unknown0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
 
-sqlite3_set_last_insert_rowid :: (unk0: *sqlite3, unk1: sqlite3_int64) -> void #foreign sqlite;
+sqlite3_set_last_insert_rowid :: (unknown0: *sqlite3, unknown1: sqlite3_int64) -> void #foreign sqlite;
 
-sqlite3_changes :: (unk0: *sqlite3) -> s32 #foreign sqlite;
-sqlite3_changes64 :: (unk0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
+sqlite3_changes :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_changes64 :: (unknown0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
 
-sqlite3_total_changes :: (unk0: *sqlite3) -> s32 #foreign sqlite;
-sqlite3_total_changes64 :: (unk0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
+sqlite3_total_changes :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_total_changes64 :: (unknown0: *sqlite3) -> sqlite3_int64 #foreign sqlite;
 
-sqlite3_interrupt :: (unk0: *sqlite3) -> void #foreign sqlite;
+sqlite3_interrupt :: (unknown0: *sqlite3) -> void #foreign sqlite;
 
 sqlite3_complete :: (sql: *u8) -> s32 #foreign sqlite;
 sqlite3_complete16 :: (sql: *void) -> s32 #foreign sqlite;
 
-sqlite3_busy_handler :: (unk0: *sqlite3, unk1: #type (unk0: *void, unk1: s32) -> s32 #c_call, unk2: *void) -> s32 #foreign sqlite;
+sqlite3_busy_handler :: (unknown0: *sqlite3, unknown1: #type (unknown0: *void, unknown1: s32) -> s32 #c_call, unknown2: *void) -> s32 #foreign sqlite;
 
-sqlite3_busy_timeout :: (unk0: *sqlite3, ms: s32) -> s32 #foreign sqlite;
+sqlite3_busy_timeout :: (unknown0: *sqlite3, ms: s32) -> s32 #foreign sqlite;
 
 sqlite3_get_table :: (db: *sqlite3, zSql: *u8, pazResult: ***u8, pnRow: *s32, pnColumn: *s32, pzErrmsg: **u8) -> s32 #foreign sqlite;
 
 sqlite3_free_table :: (result: **u8) -> void #foreign sqlite;
 
-sqlite3_mprintf_CFormat :: (unk0: *u8, __args: ..Any) -> *u8 #foreign sqlite "sqlite3_mprintf";
-sqlite3_mprintf :: (unk0: string, __args: ..Any) -> *u8 {
+sqlite3_mprintf_CFormat :: (unknown0: *u8, __args: ..Any) -> *u8 #foreign sqlite "sqlite3_mprintf";
+sqlite3_mprintf :: (unknown0: string, __args: ..Any) -> *u8 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
-    print_to_builder(*formatted_text_builder, unk0, ..__args);
+    print_to_builder(*formatted_text_builder, unknown0, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
     return sqlite3_mprintf_CFormat("%s", formatted_text.data);
 } @PrintLike
 
-sqlite3_snprintf_CFormat :: (unk0: s32, unk1: *u8, unk2: *u8, __args: ..Any) -> *u8 #foreign sqlite "sqlite3_snprintf";
-sqlite3_snprintf :: (unk0: s32, unk1: *u8, unk2: string, __args: ..Any) -> *u8 {
+sqlite3_snprintf_CFormat :: (unknown0: s32, unknown1: *u8, unknown2: *u8, __args: ..Any) -> *u8 #foreign sqlite "sqlite3_snprintf";
+sqlite3_snprintf :: (unknown0: s32, unknown1: *u8, unknown2: string, __args: ..Any) -> *u8 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
-    print_to_builder(*formatted_text_builder, unk2, ..__args);
+    print_to_builder(*formatted_text_builder, unknown2, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return sqlite3_snprintf_CFormat(unk0, unk1, "%s", formatted_text.data);
+    return sqlite3_snprintf_CFormat(unknown0, unknown1, "%s", formatted_text.data);
 } @PrintLike
 
-sqlite3_malloc :: (unk0: s32) -> *void #foreign sqlite;
-sqlite3_malloc64 :: (unk0: sqlite3_uint64) -> *void #foreign sqlite;
-sqlite3_realloc :: (unk0: *void, unk1: s32) -> *void #foreign sqlite;
-sqlite3_realloc64 :: (unk0: *void, unk1: sqlite3_uint64) -> *void #foreign sqlite;
-sqlite3_free :: (unk0: *void) -> void #foreign sqlite;
-sqlite3_msize :: (unk0: *void) -> sqlite3_uint64 #foreign sqlite;
+sqlite3_malloc :: (unknown0: s32) -> *void #foreign sqlite;
+sqlite3_malloc64 :: (unknown0: sqlite3_uint64) -> *void #foreign sqlite;
+sqlite3_realloc :: (unknown0: *void, unknown1: s32) -> *void #foreign sqlite;
+sqlite3_realloc64 :: (unknown0: *void, unknown1: sqlite3_uint64) -> *void #foreign sqlite;
+sqlite3_free :: (unknown0: *void) -> void #foreign sqlite;
+sqlite3_msize :: (unknown0: *void) -> sqlite3_uint64 #foreign sqlite;
 
 sqlite3_memory_used :: () -> sqlite3_int64 #foreign sqlite;
 sqlite3_memory_highwater :: (resetFlag: s32) -> sqlite3_int64 #foreign sqlite;
 
 sqlite3_randomness :: (N: s32, P: *void) -> void #foreign sqlite;
 
-sqlite3_set_authorizer :: (unk0: *sqlite3, xAuth: #type (unk0: *void, unk1: s32, unk2: *u8, unk3: *u8, unk4: *u8, unk5: *u8) -> s32 #c_call, pUserData: *void) -> s32 #foreign sqlite;
+sqlite3_set_authorizer :: (unknown0: *sqlite3, xAuth: #type (unknown0: *void, unknown1: s32, unknown2: *u8, unknown3: *u8, unknown4: *u8, unknown5: *u8) -> s32 #c_call, pUserData: *void) -> s32 #foreign sqlite;
 
-sqlite3_trace :: (unk0: *sqlite3, xTrace: #type (unk0: *void, unk1: *u8) -> void #c_call, unk1: *void) -> *void #foreign sqlite;
+sqlite3_trace :: (unknown0: *sqlite3, xTrace: #type (unknown0: *void, unknown1: *u8) -> void #c_call, unknown1: *void) -> *void #foreign sqlite;
 
-sqlite3_profile :: (unk0: *sqlite3, xProfile: #type (unk0: *void, unk1: *u8, unk2: sqlite3_uint64) -> void #c_call, unk1: *void) -> *void #foreign sqlite;
+sqlite3_profile :: (unknown0: *sqlite3, xProfile: #type (unknown0: *void, unknown1: *u8, unknown2: sqlite3_uint64) -> void #c_call, unknown1: *void) -> *void #foreign sqlite;
 
-sqlite3_trace_v2 :: (unk0: *sqlite3, uMask: u32, xCallback: #type (unk0: u32, unk1: *void, unk2: *void, unk3: *void) -> s32 #c_call, pCtx: *void) -> s32 #foreign sqlite;
+sqlite3_trace_v2 :: (unknown0: *sqlite3, uMask: u32, xCallback: #type (unknown0: u32, unknown1: *void, unknown2: *void, unknown3: *void) -> s32 #c_call, pCtx: *void) -> s32 #foreign sqlite;
 
-sqlite3_progress_handler :: (unk0: *sqlite3, unk1: s32, unk2: #type (unk0: *void) -> s32 #c_call, unk3: *void) -> void #foreign sqlite;
+sqlite3_progress_handler :: (unknown0: *sqlite3, unknown1: s32, unknown2: #type (unknown0: *void) -> s32 #c_call, unknown3: *void) -> void #foreign sqlite;
 
 sqlite3_open :: (filename: *u8, ppDb: **sqlite3) -> s32 #foreign sqlite;
 
@@ -687,28 +690,28 @@ sqlite3_open_v2 :: (filename: *u8, ppDb: **sqlite3, flags: s32, zVfs: *u8) -> s3
 
 sqlite3_uri_parameter :: (zFilename: *u8, zParam: *u8) -> *u8 #foreign sqlite;
 sqlite3_uri_boolean :: (zFile: *u8, zParam: *u8, bDefault: s32) -> s32 #foreign sqlite;
-sqlite3_uri_int64 :: (unk0: *u8, unk1: *u8, unk2: sqlite3_int64) -> sqlite3_int64 #foreign sqlite;
+sqlite3_uri_int64 :: (unknown0: *u8, unknown1: *u8, unknown2: sqlite3_int64) -> sqlite3_int64 #foreign sqlite;
 sqlite3_uri_key :: (zFilename: *u8, N: s32) -> *u8 #foreign sqlite;
 
-sqlite3_filename_database :: (unk0: *u8) -> *u8 #foreign sqlite;
-sqlite3_filename_journal :: (unk0: *u8) -> *u8 #foreign sqlite;
-sqlite3_filename_wal :: (unk0: *u8) -> *u8 #foreign sqlite;
+sqlite3_filename_database :: (unknown0: *u8) -> *u8 #foreign sqlite;
+sqlite3_filename_journal :: (unknown0: *u8) -> *u8 #foreign sqlite;
+sqlite3_filename_wal :: (unknown0: *u8) -> *u8 #foreign sqlite;
 
-sqlite3_database_file_object :: (unk0: *u8) -> *sqlite3_file #foreign sqlite;
+sqlite3_database_file_object :: (unknown0: *u8) -> *sqlite3_file #foreign sqlite;
 
 sqlite3_create_filename :: (zDatabase: *u8, zJournal: *u8, zWal: *u8, nParam: s32, azParam: **u8) -> *u8 #foreign sqlite;
 
-sqlite3_free_filename :: (unk0: *u8) -> void #foreign sqlite;
+sqlite3_free_filename :: (unknown0: *u8) -> void #foreign sqlite;
 
 sqlite3_errcode :: (db: *sqlite3) -> s32 #foreign sqlite;
 sqlite3_extended_errcode :: (db: *sqlite3) -> s32 #foreign sqlite;
-sqlite3_errmsg :: (unk0: *sqlite3) -> *u8 #foreign sqlite;
-sqlite3_errmsg16 :: (unk0: *sqlite3) -> *void #foreign sqlite;
-sqlite3_errstr :: (unk0: s32) -> *u8 #foreign sqlite;
+sqlite3_errmsg :: (unknown0: *sqlite3) -> *u8 #foreign sqlite;
+sqlite3_errmsg16 :: (unknown0: *sqlite3) -> *void #foreign sqlite;
+sqlite3_errstr :: (unknown0: s32) -> *u8 #foreign sqlite;
 
 sqlite3_stmt :: struct {}
 
-sqlite3_limit :: (unk0: *sqlite3, id: s32, newVal: s32) -> s32 #foreign sqlite;
+sqlite3_limit :: (unknown0: *sqlite3, id: s32, newVal: s32) -> s32 #foreign sqlite;
 
 sqlite3_prepare :: (db: *sqlite3, zSql: *u8, nByte: s32, ppStmt: **sqlite3_stmt, pzTail: **u8) -> s32 #foreign sqlite;
 
@@ -729,171 +732,171 @@ sqlite3_stmt_readonly :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
 sqlite3_stmt_isexplain :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
-sqlite3_stmt_busy :: (unk0: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_stmt_busy :: (unknown0: *sqlite3_stmt) -> s32 #foreign sqlite;
 
 sqlite3_value :: struct {}
 
 sqlite3_context :: struct {}
 
-sqlite3_bind_blob :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *void, n: s32, unk3: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
-sqlite3_bind_blob64 :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *void, unk3: sqlite3_uint64, unk4: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_bind_blob :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *void, n: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_bind_blob64 :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *void, unknown3: sqlite3_uint64, unknown4: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_bind_double :: (unk0: *sqlite3_stmt, unk1: s32, unk2: float64) -> s32 #foreign sqlite;
-sqlite3_bind_int :: (unk0: *sqlite3_stmt, unk1: s32, unk2: s32) -> s32 #foreign sqlite;
-sqlite3_bind_int64 :: (unk0: *sqlite3_stmt, unk1: s32, unk2: sqlite3_int64) -> s32 #foreign sqlite;
-sqlite3_bind_null :: (unk0: *sqlite3_stmt, unk1: s32) -> s32 #foreign sqlite;
-sqlite3_bind_text :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *u8, unk3: s32, unk4: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
-sqlite3_bind_text16 :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *void, unk3: s32, unk4: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
-sqlite3_bind_text64 :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *u8, unk3: sqlite3_uint64, unk4: #type (unk0: *void) -> void #c_call, encoding: u8) -> s32 #foreign sqlite;
+sqlite3_bind_double :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: float64) -> s32 #foreign sqlite;
+sqlite3_bind_int :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: s32) -> s32 #foreign sqlite;
+sqlite3_bind_int64 :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: sqlite3_int64) -> s32 #foreign sqlite;
+sqlite3_bind_null :: (unknown0: *sqlite3_stmt, unknown1: s32) -> s32 #foreign sqlite;
+sqlite3_bind_text :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *u8, unknown3: s32, unknown4: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_bind_text16 :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *void, unknown3: s32, unknown4: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_bind_text64 :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *u8, unknown3: sqlite3_uint64, unknown4: #type (unknown0: *void) -> void #c_call, encoding: u8) -> s32 #foreign sqlite;
 
-sqlite3_bind_value :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_bind_pointer :: (unk0: *sqlite3_stmt, unk1: s32, unk2: *void, unk3: *u8, unk4: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
-sqlite3_bind_zeroblob :: (unk0: *sqlite3_stmt, unk1: s32, n: s32) -> s32 #foreign sqlite;
-sqlite3_bind_zeroblob64 :: (unk0: *sqlite3_stmt, unk1: s32, unk2: sqlite3_uint64) -> s32 #foreign sqlite;
+sqlite3_bind_value :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_bind_pointer :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: *void, unknown3: *u8, unknown4: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_bind_zeroblob :: (unknown0: *sqlite3_stmt, unknown1: s32, n: s32) -> s32 #foreign sqlite;
+sqlite3_bind_zeroblob64 :: (unknown0: *sqlite3_stmt, unknown1: s32, unknown2: sqlite3_uint64) -> s32 #foreign sqlite;
 
-sqlite3_bind_parameter_count :: (unk0: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_bind_parameter_count :: (unknown0: *sqlite3_stmt) -> s32 #foreign sqlite;
 
-sqlite3_bind_parameter_name :: (unk0: *sqlite3_stmt, unk1: s32) -> *u8 #foreign sqlite;
+sqlite3_bind_parameter_name :: (unknown0: *sqlite3_stmt, unknown1: s32) -> *u8 #foreign sqlite;
 
-sqlite3_bind_parameter_index :: (unk0: *sqlite3_stmt, zName: *u8) -> s32 #foreign sqlite;
+sqlite3_bind_parameter_index :: (unknown0: *sqlite3_stmt, zName: *u8) -> s32 #foreign sqlite;
 
-sqlite3_clear_bindings :: (unk0: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_clear_bindings :: (unknown0: *sqlite3_stmt) -> s32 #foreign sqlite;
 
 sqlite3_column_count :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
-sqlite3_column_name :: (unk0: *sqlite3_stmt, N: s32) -> *u8 #foreign sqlite;
-sqlite3_column_name16 :: (unk0: *sqlite3_stmt, N: s32) -> *void #foreign sqlite;
+sqlite3_column_name :: (unknown0: *sqlite3_stmt, N: s32) -> *u8 #foreign sqlite;
+sqlite3_column_name16 :: (unknown0: *sqlite3_stmt, N: s32) -> *void #foreign sqlite;
 
-sqlite3_column_decltype :: (unk0: *sqlite3_stmt, unk1: s32) -> *u8 #foreign sqlite;
-sqlite3_column_decltype16 :: (unk0: *sqlite3_stmt, unk1: s32) -> *void #foreign sqlite;
+sqlite3_column_decltype :: (unknown0: *sqlite3_stmt, unknown1: s32) -> *u8 #foreign sqlite;
+sqlite3_column_decltype16 :: (unknown0: *sqlite3_stmt, unknown1: s32) -> *void #foreign sqlite;
 
-sqlite3_step :: (unk0: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_step :: (unknown0: *sqlite3_stmt) -> s32 #foreign sqlite;
 
 sqlite3_data_count :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
-sqlite3_column_blob :: (unk0: *sqlite3_stmt, iCol: s32) -> *void #foreign sqlite;
-sqlite3_column_double :: (unk0: *sqlite3_stmt, iCol: s32) -> float64 #foreign sqlite;
-sqlite3_column_int :: (unk0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
-sqlite3_column_int64 :: (unk0: *sqlite3_stmt, iCol: s32) -> sqlite3_int64 #foreign sqlite;
-sqlite3_column_text :: (unk0: *sqlite3_stmt, iCol: s32) -> *u8 #foreign sqlite;
-sqlite3_column_text16 :: (unk0: *sqlite3_stmt, iCol: s32) -> *void #foreign sqlite;
-sqlite3_column_value :: (unk0: *sqlite3_stmt, iCol: s32) -> *sqlite3_value #foreign sqlite;
-sqlite3_column_bytes :: (unk0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
-sqlite3_column_bytes16 :: (unk0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
-sqlite3_column_type :: (unk0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
+sqlite3_column_blob :: (unknown0: *sqlite3_stmt, iCol: s32) -> *void #foreign sqlite;
+sqlite3_column_double :: (unknown0: *sqlite3_stmt, iCol: s32) -> float64 #foreign sqlite;
+sqlite3_column_int :: (unknown0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
+sqlite3_column_int64 :: (unknown0: *sqlite3_stmt, iCol: s32) -> sqlite3_int64 #foreign sqlite;
+sqlite3_column_text :: (unknown0: *sqlite3_stmt, iCol: s32) -> *u8 #foreign sqlite;
+sqlite3_column_text16 :: (unknown0: *sqlite3_stmt, iCol: s32) -> *void #foreign sqlite;
+sqlite3_column_value :: (unknown0: *sqlite3_stmt, iCol: s32) -> *sqlite3_value #foreign sqlite;
+sqlite3_column_bytes :: (unknown0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
+sqlite3_column_bytes16 :: (unknown0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
+sqlite3_column_type :: (unknown0: *sqlite3_stmt, iCol: s32) -> s32 #foreign sqlite;
 
 sqlite3_finalize :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
 sqlite3_reset :: (pStmt: *sqlite3_stmt) -> s32 #foreign sqlite;
 
-sqlite3_create_function :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xStep: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xFinal: #type (unk0: *sqlite3_context) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_function :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xStep: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xFinal: #type (unknown0: *sqlite3_context) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_create_function16 :: (db: *sqlite3, zFunctionName: *void, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xStep: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xFinal: #type (unk0: *sqlite3_context) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_function16 :: (db: *sqlite3, zFunctionName: *void, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xStep: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xFinal: #type (unknown0: *sqlite3_context) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_create_function_v2 :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xStep: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xFinal: #type (unk0: *sqlite3_context) -> void #c_call, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_function_v2 :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xFunc: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xStep: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xFinal: #type (unknown0: *sqlite3_context) -> void #c_call, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_create_window_function :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xStep: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xFinal: #type (unk0: *sqlite3_context) -> void #c_call, xValue: #type (unk0: *sqlite3_context) -> void #c_call, xInverse: #type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_window_function :: (db: *sqlite3, zFunctionName: *u8, nArg: s32, eTextRep: s32, pApp: *void, xStep: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xFinal: #type (unknown0: *sqlite3_context) -> void #c_call, xValue: #type (unknown0: *sqlite3_context) -> void #c_call, xInverse: #type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_aggregate_count :: (unk0: *sqlite3_context) -> s32 #foreign sqlite;
-sqlite3_expired :: (unk0: *sqlite3_stmt) -> s32 #foreign sqlite;
-sqlite3_transfer_bindings :: (unk0: *sqlite3_stmt, unk1: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_aggregate_count :: (unknown0: *sqlite3_context) -> s32 #foreign sqlite;
+sqlite3_expired :: (unknown0: *sqlite3_stmt) -> s32 #foreign sqlite;
+sqlite3_transfer_bindings :: (unknown0: *sqlite3_stmt, unknown1: *sqlite3_stmt) -> s32 #foreign sqlite;
 sqlite3_global_recover :: () -> s32 #foreign sqlite;
 sqlite3_thread_cleanup :: () -> void #foreign sqlite;
-sqlite3_memory_alarm :: (unk0: #type (unk0: *void, unk1: sqlite3_int64, unk2: s32) -> void #c_call, unk1: *void, unk2: sqlite3_int64) -> s32 #foreign sqlite;
+sqlite3_memory_alarm :: (unknown0: #type (unknown0: *void, unknown1: sqlite3_int64, unknown2: s32) -> void #c_call, unknown1: *void, unknown2: sqlite3_int64) -> s32 #foreign sqlite;
 
-sqlite3_value_blob :: (unk0: *sqlite3_value) -> *void #foreign sqlite;
-sqlite3_value_double :: (unk0: *sqlite3_value) -> float64 #foreign sqlite;
-sqlite3_value_int :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_int64 :: (unk0: *sqlite3_value) -> sqlite3_int64 #foreign sqlite;
-sqlite3_value_pointer :: (unk0: *sqlite3_value, unk1: *u8) -> *void #foreign sqlite;
-sqlite3_value_text :: (unk0: *sqlite3_value) -> *u8 #foreign sqlite;
-sqlite3_value_text16 :: (unk0: *sqlite3_value) -> *void #foreign sqlite;
-sqlite3_value_text16le :: (unk0: *sqlite3_value) -> *void #foreign sqlite;
-sqlite3_value_text16be :: (unk0: *sqlite3_value) -> *void #foreign sqlite;
-sqlite3_value_bytes :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_bytes16 :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_type :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_numeric_type :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_nochange :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
-sqlite3_value_frombind :: (unk0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_blob :: (unknown0: *sqlite3_value) -> *void #foreign sqlite;
+sqlite3_value_double :: (unknown0: *sqlite3_value) -> float64 #foreign sqlite;
+sqlite3_value_int :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_int64 :: (unknown0: *sqlite3_value) -> sqlite3_int64 #foreign sqlite;
+sqlite3_value_pointer :: (unknown0: *sqlite3_value, unknown1: *u8) -> *void #foreign sqlite;
+sqlite3_value_text :: (unknown0: *sqlite3_value) -> *u8 #foreign sqlite;
+sqlite3_value_text16 :: (unknown0: *sqlite3_value) -> *void #foreign sqlite;
+sqlite3_value_text16le :: (unknown0: *sqlite3_value) -> *void #foreign sqlite;
+sqlite3_value_text16be :: (unknown0: *sqlite3_value) -> *void #foreign sqlite;
+sqlite3_value_bytes :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_bytes16 :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_type :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_numeric_type :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_nochange :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
+sqlite3_value_frombind :: (unknown0: *sqlite3_value) -> s32 #foreign sqlite;
 
-sqlite3_value_subtype :: (unk0: *sqlite3_value) -> u32 #foreign sqlite;
+sqlite3_value_subtype :: (unknown0: *sqlite3_value) -> u32 #foreign sqlite;
 
-sqlite3_value_dup :: (unk0: *sqlite3_value) -> *sqlite3_value #foreign sqlite;
-sqlite3_value_free :: (unk0: *sqlite3_value) -> void #foreign sqlite;
+sqlite3_value_dup :: (unknown0: *sqlite3_value) -> *sqlite3_value #foreign sqlite;
+sqlite3_value_free :: (unknown0: *sqlite3_value) -> void #foreign sqlite;
 
-sqlite3_aggregate_context :: (unk0: *sqlite3_context, nBytes: s32) -> *void #foreign sqlite;
+sqlite3_aggregate_context :: (unknown0: *sqlite3_context, nBytes: s32) -> *void #foreign sqlite;
 
-sqlite3_user_data :: (unk0: *sqlite3_context) -> *void #foreign sqlite;
+sqlite3_user_data :: (unknown0: *sqlite3_context) -> *void #foreign sqlite;
 
-sqlite3_context_db_handle :: (unk0: *sqlite3_context) -> *sqlite3 #foreign sqlite;
+sqlite3_context_db_handle :: (unknown0: *sqlite3_context) -> *sqlite3 #foreign sqlite;
 
-sqlite3_get_auxdata :: (unk0: *sqlite3_context, N: s32) -> *void #foreign sqlite;
-sqlite3_set_auxdata :: (unk0: *sqlite3_context, N: s32, unk1: *void, unk2: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_get_auxdata :: (unknown0: *sqlite3_context, N: s32) -> *void #foreign sqlite;
+sqlite3_set_auxdata :: (unknown0: *sqlite3_context, N: s32, unknown1: *void, unknown2: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
 
-sqlite3_destructor_type :: #type (unk0: *void) -> void #c_call;
+sqlite3_destructor_type :: #type (unknown0: *void) -> void #c_call;
 
-sqlite3_result_blob :: (unk0: *sqlite3_context, unk1: *void, unk2: s32, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_blob64 :: (unk0: *sqlite3_context, unk1: *void, unk2: sqlite3_uint64, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_blob :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_blob64 :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: sqlite3_uint64, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
 
-sqlite3_result_double :: (unk0: *sqlite3_context, unk1: float64) -> void #foreign sqlite;
-sqlite3_result_error :: (unk0: *sqlite3_context, unk1: *u8, unk2: s32) -> void #foreign sqlite;
-sqlite3_result_error16 :: (unk0: *sqlite3_context, unk1: *void, unk2: s32) -> void #foreign sqlite;
-sqlite3_result_error_toobig :: (unk0: *sqlite3_context) -> void #foreign sqlite;
-sqlite3_result_error_nomem :: (unk0: *sqlite3_context) -> void #foreign sqlite;
-sqlite3_result_error_code :: (unk0: *sqlite3_context, unk1: s32) -> void #foreign sqlite;
-sqlite3_result_int :: (unk0: *sqlite3_context, unk1: s32) -> void #foreign sqlite;
-sqlite3_result_int64 :: (unk0: *sqlite3_context, unk1: sqlite3_int64) -> void #foreign sqlite;
-sqlite3_result_null :: (unk0: *sqlite3_context) -> void #foreign sqlite;
-sqlite3_result_text :: (unk0: *sqlite3_context, unk1: *u8, unk2: s32, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_text64 :: (unk0: *sqlite3_context, unk1: *u8, unk2: sqlite3_uint64, unk3: #type (unk0: *void) -> void #c_call, encoding: u8) -> void #foreign sqlite;
+sqlite3_result_double :: (unknown0: *sqlite3_context, unknown1: float64) -> void #foreign sqlite;
+sqlite3_result_error :: (unknown0: *sqlite3_context, unknown1: *u8, unknown2: s32) -> void #foreign sqlite;
+sqlite3_result_error16 :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: s32) -> void #foreign sqlite;
+sqlite3_result_error_toobig :: (unknown0: *sqlite3_context) -> void #foreign sqlite;
+sqlite3_result_error_nomem :: (unknown0: *sqlite3_context) -> void #foreign sqlite;
+sqlite3_result_error_code :: (unknown0: *sqlite3_context, unknown1: s32) -> void #foreign sqlite;
+sqlite3_result_int :: (unknown0: *sqlite3_context, unknown1: s32) -> void #foreign sqlite;
+sqlite3_result_int64 :: (unknown0: *sqlite3_context, unknown1: sqlite3_int64) -> void #foreign sqlite;
+sqlite3_result_null :: (unknown0: *sqlite3_context) -> void #foreign sqlite;
+sqlite3_result_text :: (unknown0: *sqlite3_context, unknown1: *u8, unknown2: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_text64 :: (unknown0: *sqlite3_context, unknown1: *u8, unknown2: sqlite3_uint64, unknown3: #type (unknown0: *void) -> void #c_call, encoding: u8) -> void #foreign sqlite;
 
-sqlite3_result_text16 :: (unk0: *sqlite3_context, unk1: *void, unk2: s32, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_text16le :: (unk0: *sqlite3_context, unk1: *void, unk2: s32, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_text16be :: (unk0: *sqlite3_context, unk1: *void, unk2: s32, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_value :: (unk0: *sqlite3_context, unk1: *sqlite3_value) -> void #foreign sqlite;
-sqlite3_result_pointer :: (unk0: *sqlite3_context, unk1: *void, unk2: *u8, unk3: #type (unk0: *void) -> void #c_call) -> void #foreign sqlite;
-sqlite3_result_zeroblob :: (unk0: *sqlite3_context, n: s32) -> void #foreign sqlite;
-sqlite3_result_zeroblob64 :: (unk0: *sqlite3_context, n: sqlite3_uint64) -> s32 #foreign sqlite;
+sqlite3_result_text16 :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_text16le :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_text16be :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: s32, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_value :: (unknown0: *sqlite3_context, unknown1: *sqlite3_value) -> void #foreign sqlite;
+sqlite3_result_pointer :: (unknown0: *sqlite3_context, unknown1: *void, unknown2: *u8, unknown3: #type (unknown0: *void) -> void #c_call) -> void #foreign sqlite;
+sqlite3_result_zeroblob :: (unknown0: *sqlite3_context, n: s32) -> void #foreign sqlite;
+sqlite3_result_zeroblob64 :: (unknown0: *sqlite3_context, n: sqlite3_uint64) -> s32 #foreign sqlite;
 
-sqlite3_result_subtype :: (unk0: *sqlite3_context, unk1: u32) -> void #foreign sqlite;
+sqlite3_result_subtype :: (unknown0: *sqlite3_context, unknown1: u32) -> void #foreign sqlite;
 
-sqlite3_create_collation :: (unk0: *sqlite3, zName: *u8, eTextRep: s32, pArg: *void, xCompare: #type (unk0: *void, unk1: s32, unk2: *void, unk3: s32, unk4: *void) -> s32 #c_call) -> s32 #foreign sqlite;
+sqlite3_create_collation :: (unknown0: *sqlite3, zName: *u8, eTextRep: s32, pArg: *void, xCompare: #type (unknown0: *void, unknown1: s32, unknown2: *void, unknown3: s32, unknown4: *void) -> s32 #c_call) -> s32 #foreign sqlite;
 
-sqlite3_create_collation_v2 :: (unk0: *sqlite3, zName: *u8, eTextRep: s32, pArg: *void, xCompare: #type (unk0: *void, unk1: s32, unk2: *void, unk3: s32, unk4: *void) -> s32 #c_call, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_collation_v2 :: (unknown0: *sqlite3, zName: *u8, eTextRep: s32, pArg: *void, xCompare: #type (unknown0: *void, unknown1: s32, unknown2: *void, unknown3: s32, unknown4: *void) -> s32 #c_call, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_create_collation16 :: (unk0: *sqlite3, zName: *void, eTextRep: s32, pArg: *void, xCompare: #type (unk0: *void, unk1: s32, unk2: *void, unk3: s32, unk4: *void) -> s32 #c_call) -> s32 #foreign sqlite;
+sqlite3_create_collation16 :: (unknown0: *sqlite3, zName: *void, eTextRep: s32, pArg: *void, xCompare: #type (unknown0: *void, unknown1: s32, unknown2: *void, unknown3: s32, unknown4: *void) -> s32 #c_call) -> s32 #foreign sqlite;
 
-sqlite3_collation_needed :: (unk0: *sqlite3, unk1: *void, unk2: #type (unk0: *void, unk1: *sqlite3, eTextRep: s32, unk2: *u8) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_collation_needed :: (unknown0: *sqlite3, unknown1: *void, unknown2: #type (unknown0: *void, unknown1: *sqlite3, eTextRep: s32, unknown2: *u8) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_collation_needed16 :: (unk0: *sqlite3, unk1: *void, unk2: #type (unk0: *void, unk1: *sqlite3, eTextRep: s32, unk2: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_collation_needed16 :: (unknown0: *sqlite3, unknown1: *void, unknown2: #type (unknown0: *void, unknown1: *sqlite3, eTextRep: s32, unknown2: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_sleep :: (unk0: s32) -> s32 #foreign sqlite;
+sqlite3_sleep :: (unknown0: s32) -> s32 #foreign sqlite;
 
-sqlite3_get_autocommit :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_get_autocommit :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
-sqlite3_db_handle :: (unk0: *sqlite3_stmt) -> *sqlite3 #foreign sqlite;
+sqlite3_db_handle :: (unknown0: *sqlite3_stmt) -> *sqlite3 #foreign sqlite;
 
 sqlite3_db_filename :: (db: *sqlite3, zDbName: *u8) -> *u8 #foreign sqlite;
 
 sqlite3_db_readonly :: (db: *sqlite3, zDbName: *u8) -> s32 #foreign sqlite;
 
-sqlite3_txn_state :: (unk0: *sqlite3, zSchema: *u8) -> s32 #foreign sqlite;
+sqlite3_txn_state :: (unknown0: *sqlite3, zSchema: *u8) -> s32 #foreign sqlite;
 
 sqlite3_next_stmt :: (pDb: *sqlite3, pStmt: *sqlite3_stmt) -> *sqlite3_stmt #foreign sqlite;
 
-sqlite3_commit_hook :: (unk0: *sqlite3, unk1: #type (unk0: *void) -> s32 #c_call, unk2: *void) -> *void #foreign sqlite;
-sqlite3_rollback_hook :: (unk0: *sqlite3, unk1: #type (unk0: *void) -> void #c_call, unk2: *void) -> *void #foreign sqlite;
+sqlite3_commit_hook :: (unknown0: *sqlite3, unknown1: #type (unknown0: *void) -> s32 #c_call, unknown2: *void) -> *void #foreign sqlite;
+sqlite3_rollback_hook :: (unknown0: *sqlite3, unknown1: #type (unknown0: *void) -> void #c_call, unknown2: *void) -> *void #foreign sqlite;
 
-sqlite3_autovacuum_pages :: (db: *sqlite3, unk0: #type (unk0: *void, unk1: *u8, unk2: u32, unk3: u32, unk4: u32) -> u32 #c_call, unk1: *void, unk2: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_autovacuum_pages :: (db: *sqlite3, unknown0: #type (unknown0: *void, unknown1: *u8, unknown2: u32, unknown3: u32, unknown4: u32) -> u32 #c_call, unknown1: *void, unknown2: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
-sqlite3_update_hook :: (unk0: *sqlite3, unk1: #type (unk0: *void, unk1: s32, unk2: *u8, unk3: *u8, unk4: sqlite3_int64) -> void #c_call, unk2: *void) -> *void #foreign sqlite;
+sqlite3_update_hook :: (unknown0: *sqlite3, unknown1: #type (unknown0: *void, unknown1: s32, unknown2: *u8, unknown3: *u8, unknown4: sqlite3_int64) -> void #c_call, unknown2: *void) -> *void #foreign sqlite;
 
-sqlite3_enable_shared_cache :: (unk0: s32) -> s32 #foreign sqlite;
+sqlite3_enable_shared_cache :: (unknown0: s32) -> s32 #foreign sqlite;
 
-sqlite3_release_memory :: (unk0: s32) -> s32 #foreign sqlite;
+sqlite3_release_memory :: (unknown0: s32) -> s32 #foreign sqlite;
 
-sqlite3_db_release_memory :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_db_release_memory :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
 sqlite3_soft_heap_limit64 :: (N: sqlite3_int64) -> sqlite3_int64 #foreign sqlite;
 sqlite3_hard_heap_limit64 :: (N: sqlite3_int64) -> sqlite3_int64 #foreign sqlite;
@@ -914,35 +917,35 @@ sqlite3_reset_auto_extension :: () -> void #foreign sqlite;
 
 sqlite3_module :: struct {
     iVersion:      s32;
-    xCreate:       #type (unk0: *sqlite3, pAux: *void, argc: s32, argv: **u8, ppVTab: **sqlite3_vtab, unk1: **u8) -> s32 #c_call;
+    xCreate:       #type (unknown0: *sqlite3, pAux: *void, argc: s32, argv: **u8, ppVTab: **sqlite3_vtab, unknown1: **u8) -> s32 #c_call;
 
-    xConnect:      #type (unk0: *sqlite3, pAux: *void, argc: s32, argv: **u8, ppVTab: **sqlite3_vtab, unk1: **u8) -> s32 #c_call;
+    xConnect:      #type (unknown0: *sqlite3, pAux: *void, argc: s32, argv: **u8, ppVTab: **sqlite3_vtab, unknown1: **u8) -> s32 #c_call;
 
-    xBestIndex:    #type (pVTab: *sqlite3_vtab, unk0: *sqlite3_index_info) -> s32 #c_call;
+    xBestIndex:    #type (pVTab: *sqlite3_vtab, unknown0: *sqlite3_index_info) -> s32 #c_call;
     xDisconnect:   #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
     xDestroy:      #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
     xOpen:         #type (pVTab: *sqlite3_vtab, ppCursor: **sqlite3_vtab_cursor) -> s32 #c_call;
-    xClose:        #type (unk0: *sqlite3_vtab_cursor) -> s32 #c_call;
-    xFilter:       #type (unk0: *sqlite3_vtab_cursor, idxNum: s32, idxStr: *u8, argc: s32, argv: **sqlite3_value) -> s32 #c_call;
+    xClose:        #type (unknown0: *sqlite3_vtab_cursor) -> s32 #c_call;
+    xFilter:       #type (unknown0: *sqlite3_vtab_cursor, idxNum: s32, idxStr: *u8, argc: s32, argv: **sqlite3_value) -> s32 #c_call;
 
-    xNext:         #type (unk0: *sqlite3_vtab_cursor) -> s32 #c_call;
-    xEof:          #type (unk0: *sqlite3_vtab_cursor) -> s32 #c_call;
-    xColumn:       #type (unk0: *sqlite3_vtab_cursor, unk1: *sqlite3_context, unk2: s32) -> s32 #c_call;
-    xRowid:        #type (unk0: *sqlite3_vtab_cursor, pRowid: *sqlite3_int64) -> s32 #c_call;
-    xUpdate:       #type (unk0: *sqlite3_vtab, unk1: s32, unk2: **sqlite3_value, unk3: *sqlite3_int64) -> s32 #c_call;
+    xNext:         #type (unknown0: *sqlite3_vtab_cursor) -> s32 #c_call;
+    xEof:          #type (unknown0: *sqlite3_vtab_cursor) -> s32 #c_call;
+    xColumn:       #type (unknown0: *sqlite3_vtab_cursor, unknown1: *sqlite3_context, unknown2: s32) -> s32 #c_call;
+    xRowid:        #type (unknown0: *sqlite3_vtab_cursor, pRowid: *sqlite3_int64) -> s32 #c_call;
+    xUpdate:       #type (unknown0: *sqlite3_vtab, unknown1: s32, unknown2: **sqlite3_value, unknown3: *sqlite3_int64) -> s32 #c_call;
     xBegin:        #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
     xSync:         #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
     xCommit:       #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
     xRollback:     #type (pVTab: *sqlite3_vtab) -> s32 #c_call;
-    xFindFunction: #type (pVtab: *sqlite3_vtab, nArg: s32, zName: *u8, pxFunc: *#type (unk0: *sqlite3_context, unk1: s32, unk2: **sqlite3_value) -> void #c_call, ppArg: **void) -> s32 #c_call;
+    xFindFunction: #type (pVtab: *sqlite3_vtab, nArg: s32, zName: *u8, pxFunc: *#type (unknown0: *sqlite3_context, unknown1: s32, unknown2: **sqlite3_value) -> void #c_call, ppArg: **void) -> s32 #c_call;
 
     xRename:       #type (pVtab: *sqlite3_vtab, zNew: *u8) -> s32 #c_call;
 
-    xSavepoint:    #type (pVTab: *sqlite3_vtab, unk0: s32) -> s32 #c_call;
-    xRelease:      #type (pVTab: *sqlite3_vtab, unk0: s32) -> s32 #c_call;
-    xRollbackTo:   #type (pVTab: *sqlite3_vtab, unk0: s32) -> s32 #c_call;
+    xSavepoint:    #type (pVTab: *sqlite3_vtab, unknown0: s32) -> s32 #c_call;
+    xRelease:      #type (pVTab: *sqlite3_vtab, unknown0: s32) -> s32 #c_call;
+    xRollbackTo:   #type (pVTab: *sqlite3_vtab, unknown0: s32) -> s32 #c_call;
 
-    xShadowName:   #type (unk0: *u8) -> s32 #c_call;
+    xShadowName:   #type (unknown0: *u8) -> s32 #c_call;
 }
 
 sqlite3_index_info :: struct {
@@ -984,7 +987,7 @@ sqlite3_index_info :: struct {
 
 sqlite3_create_module :: (db: *sqlite3, zName: *u8, p: *sqlite3_module, pClientData: *void) -> s32 #foreign sqlite;
 
-sqlite3_create_module_v2 :: (db: *sqlite3, zName: *u8, p: *sqlite3_module, pClientData: *void, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #foreign sqlite;
+sqlite3_create_module_v2 :: (db: *sqlite3, zName: *u8, p: *sqlite3_module, pClientData: *void, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #foreign sqlite;
 
 sqlite3_drop_modules :: (db: *sqlite3, azKeep: **u8) -> s32 #foreign sqlite;
 
@@ -998,87 +1001,87 @@ sqlite3_vtab_cursor :: struct {
     pVtab: *sqlite3_vtab;
 }
 
-sqlite3_declare_vtab :: (unk0: *sqlite3, zSQL: *u8) -> s32 #foreign sqlite;
+sqlite3_declare_vtab :: (unknown0: *sqlite3, zSQL: *u8) -> s32 #foreign sqlite;
 
-sqlite3_overload_function :: (unk0: *sqlite3, zFuncName: *u8, nArg: s32) -> s32 #foreign sqlite;
+sqlite3_overload_function :: (unknown0: *sqlite3, zFuncName: *u8, nArg: s32) -> s32 #foreign sqlite;
 
 sqlite3_blob :: struct {}
 
-sqlite3_blob_open :: (unk0: *sqlite3, zDb: *u8, zTable: *u8, zColumn: *u8, iRow: sqlite3_int64, flags: s32, ppBlob: **sqlite3_blob) -> s32 #foreign sqlite;
+sqlite3_blob_open :: (unknown0: *sqlite3, zDb: *u8, zTable: *u8, zColumn: *u8, iRow: sqlite3_int64, flags: s32, ppBlob: **sqlite3_blob) -> s32 #foreign sqlite;
 
-sqlite3_blob_reopen :: (unk0: *sqlite3_blob, unk1: sqlite3_int64) -> s32 #foreign sqlite;
+sqlite3_blob_reopen :: (unknown0: *sqlite3_blob, unknown1: sqlite3_int64) -> s32 #foreign sqlite;
 
-sqlite3_blob_close :: (unk0: *sqlite3_blob) -> s32 #foreign sqlite;
+sqlite3_blob_close :: (unknown0: *sqlite3_blob) -> s32 #foreign sqlite;
 
-sqlite3_blob_bytes :: (unk0: *sqlite3_blob) -> s32 #foreign sqlite;
+sqlite3_blob_bytes :: (unknown0: *sqlite3_blob) -> s32 #foreign sqlite;
 
-sqlite3_blob_read :: (unk0: *sqlite3_blob, Z: *void, N: s32, iOffset: s32) -> s32 #foreign sqlite;
+sqlite3_blob_read :: (unknown0: *sqlite3_blob, Z: *void, N: s32, iOffset: s32) -> s32 #foreign sqlite;
 
-sqlite3_blob_write :: (unk0: *sqlite3_blob, z: *void, n: s32, iOffset: s32) -> s32 #foreign sqlite;
+sqlite3_blob_write :: (unknown0: *sqlite3_blob, z: *void, n: s32, iOffset: s32) -> s32 #foreign sqlite;
 
 sqlite3_vfs_find :: (zVfsName: *u8) -> *sqlite3_vfs #foreign sqlite;
-sqlite3_vfs_register :: (unk0: *sqlite3_vfs, makeDflt: s32) -> s32 #foreign sqlite;
-sqlite3_vfs_unregister :: (unk0: *sqlite3_vfs) -> s32 #foreign sqlite;
+sqlite3_vfs_register :: (unknown0: *sqlite3_vfs, makeDflt: s32) -> s32 #foreign sqlite;
+sqlite3_vfs_unregister :: (unknown0: *sqlite3_vfs) -> s32 #foreign sqlite;
 
-sqlite3_mutex_alloc :: (unk0: s32) -> *sqlite3_mutex #foreign sqlite;
-sqlite3_mutex_free :: (unk0: *sqlite3_mutex) -> void #foreign sqlite;
-sqlite3_mutex_enter :: (unk0: *sqlite3_mutex) -> void #foreign sqlite;
-sqlite3_mutex_try :: (unk0: *sqlite3_mutex) -> s32 #foreign sqlite;
-sqlite3_mutex_leave :: (unk0: *sqlite3_mutex) -> void #foreign sqlite;
+sqlite3_mutex_alloc :: (unknown0: s32) -> *sqlite3_mutex #foreign sqlite;
+sqlite3_mutex_free :: (unknown0: *sqlite3_mutex) -> void #foreign sqlite;
+sqlite3_mutex_enter :: (unknown0: *sqlite3_mutex) -> void #foreign sqlite;
+sqlite3_mutex_try :: (unknown0: *sqlite3_mutex) -> s32 #foreign sqlite;
+sqlite3_mutex_leave :: (unknown0: *sqlite3_mutex) -> void #foreign sqlite;
 
 sqlite3_mutex_methods :: struct {
     xMutexInit:    #type () -> s32 #c_call;
     xMutexEnd:     #type () -> s32 #c_call;
-    xMutexAlloc:   #type (unk0: s32) -> *sqlite3_mutex #c_call;
-    xMutexFree:    #type (unk0: *sqlite3_mutex) -> void #c_call;
-    xMutexEnter:   #type (unk0: *sqlite3_mutex) -> void #c_call;
-    xMutexTry:     #type (unk0: *sqlite3_mutex) -> s32 #c_call;
-    xMutexLeave:   #type (unk0: *sqlite3_mutex) -> void #c_call;
-    xMutexHeld:    #type (unk0: *sqlite3_mutex) -> s32 #c_call;
-    xMutexNotheld: #type (unk0: *sqlite3_mutex) -> s32 #c_call;
+    xMutexAlloc:   #type (unknown0: s32) -> *sqlite3_mutex #c_call;
+    xMutexFree:    #type (unknown0: *sqlite3_mutex) -> void #c_call;
+    xMutexEnter:   #type (unknown0: *sqlite3_mutex) -> void #c_call;
+    xMutexTry:     #type (unknown0: *sqlite3_mutex) -> s32 #c_call;
+    xMutexLeave:   #type (unknown0: *sqlite3_mutex) -> void #c_call;
+    xMutexHeld:    #type (unknown0: *sqlite3_mutex) -> s32 #c_call;
+    xMutexNotheld: #type (unknown0: *sqlite3_mutex) -> s32 #c_call;
 }
 
-sqlite3_db_mutex :: (unk0: *sqlite3) -> *sqlite3_mutex #foreign sqlite;
+sqlite3_db_mutex :: (unknown0: *sqlite3) -> *sqlite3_mutex #foreign sqlite;
 
-sqlite3_file_control :: (unk0: *sqlite3, zDbName: *u8, op: s32, unk1: *void) -> s32 #foreign sqlite;
+sqlite3_file_control :: (unknown0: *sqlite3, zDbName: *u8, op: s32, unknown1: *void) -> s32 #foreign sqlite;
 
 sqlite3_test_control :: (op: s32, __args: ..Any) -> s32 #foreign sqlite;
 
 sqlite3_keyword_count :: () -> s32 #foreign sqlite;
-sqlite3_keyword_name :: (unk0: s32, unk1: **u8, unk2: *s32) -> s32 #foreign sqlite;
-sqlite3_keyword_check :: (unk0: *u8, unk1: s32) -> s32 #foreign sqlite;
+sqlite3_keyword_name :: (unknown0: s32, unknown1: **u8, unknown2: *s32) -> s32 #foreign sqlite;
+sqlite3_keyword_check :: (unknown0: *u8, unknown1: s32) -> s32 #foreign sqlite;
 
 sqlite3_str :: struct {}
 
-sqlite3_str_new :: (unk0: *sqlite3) -> *sqlite3_str #foreign sqlite;
+sqlite3_str_new :: (unknown0: *sqlite3) -> *sqlite3_str #foreign sqlite;
 
-sqlite3_str_finish :: (unk0: *sqlite3_str) -> *u8 #foreign sqlite;
+sqlite3_str_finish :: (unknown0: *sqlite3_str) -> *u8 #foreign sqlite;
 
-sqlite3_str_appendf_CFormat :: (unk0: *sqlite3_str, zFormat: *u8, __args: ..Any) -> void #foreign sqlite "sqlite3_str_appendf";
-sqlite3_str_appendf :: (unk0: *sqlite3_str, zFormat: string, __args: ..Any) {
+sqlite3_str_appendf_CFormat :: (unknown0: *sqlite3_str, zFormat: *u8, __args: ..Any) -> void #foreign sqlite "sqlite3_str_appendf";
+sqlite3_str_appendf :: (unknown0: *sqlite3_str, zFormat: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, zFormat, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    sqlite3_str_appendf_CFormat(unk0, "%s", formatted_text.data);
+    sqlite3_str_appendf_CFormat(unknown0, "%s", formatted_text.data);
 } @PrintLike
 
-sqlite3_str_append :: (unk0: *sqlite3_str, zIn: *u8, N: s32) -> void #foreign sqlite;
-sqlite3_str_appendall :: (unk0: *sqlite3_str, zIn: *u8) -> void #foreign sqlite;
-sqlite3_str_appendchar :: (unk0: *sqlite3_str, N: s32, C: u8) -> void #foreign sqlite;
-sqlite3_str_reset :: (unk0: *sqlite3_str) -> void #foreign sqlite;
+sqlite3_str_append :: (unknown0: *sqlite3_str, zIn: *u8, N: s32) -> void #foreign sqlite;
+sqlite3_str_appendall :: (unknown0: *sqlite3_str, zIn: *u8) -> void #foreign sqlite;
+sqlite3_str_appendchar :: (unknown0: *sqlite3_str, N: s32, C: u8) -> void #foreign sqlite;
+sqlite3_str_reset :: (unknown0: *sqlite3_str) -> void #foreign sqlite;
 
-sqlite3_str_errcode :: (unk0: *sqlite3_str) -> s32 #foreign sqlite;
-sqlite3_str_length :: (unk0: *sqlite3_str) -> s32 #foreign sqlite;
-sqlite3_str_value :: (unk0: *sqlite3_str) -> *u8 #foreign sqlite;
+sqlite3_str_errcode :: (unknown0: *sqlite3_str) -> s32 #foreign sqlite;
+sqlite3_str_length :: (unknown0: *sqlite3_str) -> s32 #foreign sqlite;
+sqlite3_str_value :: (unknown0: *sqlite3_str) -> *u8 #foreign sqlite;
 
 sqlite3_status :: (op: s32, pCurrent: *s32, pHighwater: *s32, resetFlag: s32) -> s32 #foreign sqlite;
 sqlite3_status64 :: (op: s32, pCurrent: *sqlite3_int64, pHighwater: *sqlite3_int64, resetFlag: s32) -> s32 #foreign sqlite;
 
-sqlite3_db_status :: (unk0: *sqlite3, op: s32, pCur: *s32, pHiwtr: *s32, resetFlg: s32) -> s32 #foreign sqlite;
+sqlite3_db_status :: (unknown0: *sqlite3, op: s32, pCur: *s32, pHiwtr: *s32, resetFlg: s32) -> s32 #foreign sqlite;
 
-sqlite3_stmt_status :: (unk0: *sqlite3_stmt, op: s32, resetFlg: s32) -> s32 #foreign sqlite;
+sqlite3_stmt_status :: (unknown0: *sqlite3_stmt, op: s32, resetFlg: s32) -> s32 #foreign sqlite;
 
 sqlite3_pcache :: struct {}
 
@@ -1090,32 +1093,32 @@ sqlite3_pcache_page :: struct {
 sqlite3_pcache_methods2 :: struct {
     iVersion:   s32;
     pArg:       *void;
-    xInit:      #type (unk0: *void) -> s32 #c_call;
-    xShutdown:  #type (unk0: *void) -> void #c_call;
+    xInit:      #type (unknown0: *void) -> s32 #c_call;
+    xShutdown:  #type (unknown0: *void) -> void #c_call;
     xCreate:    #type (szPage: s32, szExtra: s32, bPurgeable: s32) -> *sqlite3_pcache #c_call;
-    xCachesize: #type (unk0: *sqlite3_pcache, nCachesize: s32) -> void #c_call;
-    xPagecount: #type (unk0: *sqlite3_pcache) -> s32 #c_call;
-    xFetch:     #type (unk0: *sqlite3_pcache, key: u32, createFlag: s32) -> *sqlite3_pcache_page #c_call;
-    xUnpin:     #type (unk0: *sqlite3_pcache, unk1: *sqlite3_pcache_page, discard: s32) -> void #c_call;
-    xRekey:     #type (unk0: *sqlite3_pcache, unk1: *sqlite3_pcache_page, oldKey: u32, newKey: u32) -> void #c_call;
+    xCachesize: #type (unknown0: *sqlite3_pcache, nCachesize: s32) -> void #c_call;
+    xPagecount: #type (unknown0: *sqlite3_pcache) -> s32 #c_call;
+    xFetch:     #type (unknown0: *sqlite3_pcache, key: u32, createFlag: s32) -> *sqlite3_pcache_page #c_call;
+    xUnpin:     #type (unknown0: *sqlite3_pcache, unknown1: *sqlite3_pcache_page, discard: s32) -> void #c_call;
+    xRekey:     #type (unknown0: *sqlite3_pcache, unknown1: *sqlite3_pcache_page, oldKey: u32, newKey: u32) -> void #c_call;
 
-    xTruncate:  #type (unk0: *sqlite3_pcache, iLimit: u32) -> void #c_call;
-    xDestroy:   #type (unk0: *sqlite3_pcache) -> void #c_call;
-    xShrink:    #type (unk0: *sqlite3_pcache) -> void #c_call;
+    xTruncate:  #type (unknown0: *sqlite3_pcache, iLimit: u32) -> void #c_call;
+    xDestroy:   #type (unknown0: *sqlite3_pcache) -> void #c_call;
+    xShrink:    #type (unknown0: *sqlite3_pcache) -> void #c_call;
 }
 
 sqlite3_pcache_methods :: struct {
     pArg:       *void;
-    xInit:      #type (unk0: *void) -> s32 #c_call;
-    xShutdown:  #type (unk0: *void) -> void #c_call;
+    xInit:      #type (unknown0: *void) -> s32 #c_call;
+    xShutdown:  #type (unknown0: *void) -> void #c_call;
     xCreate:    #type (szPage: s32, bPurgeable: s32) -> *sqlite3_pcache #c_call;
-    xCachesize: #type (unk0: *sqlite3_pcache, nCachesize: s32) -> void #c_call;
-    xPagecount: #type (unk0: *sqlite3_pcache) -> s32 #c_call;
-    xFetch:     #type (unk0: *sqlite3_pcache, key: u32, createFlag: s32) -> *void #c_call;
-    xUnpin:     #type (unk0: *sqlite3_pcache, unk1: *void, discard: s32) -> void #c_call;
-    xRekey:     #type (unk0: *sqlite3_pcache, unk1: *void, oldKey: u32, newKey: u32) -> void #c_call;
-    xTruncate:  #type (unk0: *sqlite3_pcache, iLimit: u32) -> void #c_call;
-    xDestroy:   #type (unk0: *sqlite3_pcache) -> void #c_call;
+    xCachesize: #type (unknown0: *sqlite3_pcache, nCachesize: s32) -> void #c_call;
+    xPagecount: #type (unknown0: *sqlite3_pcache) -> s32 #c_call;
+    xFetch:     #type (unknown0: *sqlite3_pcache, key: u32, createFlag: s32) -> *void #c_call;
+    xUnpin:     #type (unknown0: *sqlite3_pcache, unknown1: *void, discard: s32) -> void #c_call;
+    xRekey:     #type (unknown0: *sqlite3_pcache, unknown1: *void, oldKey: u32, newKey: u32) -> void #c_call;
+    xTruncate:  #type (unknown0: *sqlite3_pcache, iLimit: u32) -> void #c_call;
+    xDestroy:   #type (unknown0: *sqlite3_pcache) -> void #c_call;
 }
 
 sqlite3_backup :: struct {}
@@ -1127,8 +1130,8 @@ sqlite3_backup_finish :: (p: *sqlite3_backup) -> s32 #foreign sqlite;
 sqlite3_backup_remaining :: (p: *sqlite3_backup) -> s32 #foreign sqlite;
 sqlite3_backup_pagecount :: (p: *sqlite3_backup) -> s32 #foreign sqlite;
 
-sqlite3_stricmp :: (unk0: *u8, unk1: *u8) -> s32 #foreign sqlite;
-sqlite3_strnicmp :: (unk0: *u8, unk1: *u8, unk2: s32) -> s32 #foreign sqlite;
+sqlite3_stricmp :: (unknown0: *u8, unknown1: *u8) -> s32 #foreign sqlite;
+sqlite3_strnicmp :: (unknown0: *u8, unknown1: *u8, unknown2: s32) -> s32 #foreign sqlite;
 
 sqlite3_strglob :: (zGlob: *u8, zStr: *u8) -> s32 #foreign sqlite;
 
@@ -1144,7 +1147,7 @@ sqlite3_log :: (iErrCode: s32, zFormat: string, __args: ..Any) {
     sqlite3_log_CFormat(iErrCode, "%s", formatted_text.data);
 } @PrintLike
 
-sqlite3_wal_hook :: (unk0: *sqlite3, unk1: #type (unk0: *void, unk1: *sqlite3, unk2: *u8, unk3: s32) -> s32 #c_call, unk2: *void) -> *void #foreign sqlite;
+sqlite3_wal_hook :: (unknown0: *sqlite3, unknown1: #type (unknown0: *void, unknown1: *sqlite3, unknown2: *u8, unknown3: s32) -> s32 #c_call, unknown2: *void) -> *void #foreign sqlite;
 
 sqlite3_wal_autocheckpoint :: (db: *sqlite3, N: s32) -> s32 #foreign sqlite;
 
@@ -1152,17 +1155,17 @@ sqlite3_wal_checkpoint :: (db: *sqlite3, zDb: *u8) -> s32 #foreign sqlite;
 
 sqlite3_wal_checkpoint_v2 :: (db: *sqlite3, zDb: *u8, eMode: s32, pnLog: *s32, pnCkpt: *s32) -> s32 #foreign sqlite;
 
-sqlite3_vtab_config :: (unk0: *sqlite3, op: s32, __args: ..Any) -> s32 #foreign sqlite;
+sqlite3_vtab_config :: (unknown0: *sqlite3, op: s32, __args: ..Any) -> s32 #foreign sqlite;
 
-sqlite3_vtab_on_conflict :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_vtab_on_conflict :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
-sqlite3_vtab_nochange :: (unk0: *sqlite3_context) -> s32 #foreign sqlite;
+sqlite3_vtab_nochange :: (unknown0: *sqlite3_context) -> s32 #foreign sqlite;
 
-sqlite3_vtab_collation :: (unk0: *sqlite3_index_info, unk1: s32) -> *u8 #foreign sqlite;
+sqlite3_vtab_collation :: (unknown0: *sqlite3_index_info, unknown1: s32) -> *u8 #foreign sqlite;
 
-sqlite3_db_cacheflush :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_db_cacheflush :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
-sqlite3_system_errno :: (unk0: *sqlite3) -> s32 #foreign sqlite;
+sqlite3_system_errno :: (unknown0: *sqlite3) -> s32 #foreign sqlite;
 
 sqlite3_snapshot :: struct {
     hidden: [48] u8;
@@ -1179,7 +1182,7 @@ sqlite3_rtree_geometry :: struct {
     nParam:   s32;
     aParam:   *sqlite3_rtree_dbl;
     pUser:    *void;
-    xDelUser: #type (unk0: *void) -> void #c_call;
+    xDelUser: #type (unknown0: *void) -> void #c_call;
 }
 
 sqlite3_rtree_query_info :: struct {
@@ -1187,7 +1190,7 @@ sqlite3_rtree_query_info :: struct {
     nParam:        s32;
     aParam:        *sqlite3_rtree_dbl;
     pUser:         *void;
-    xDelUser:      #type (unk0: *void) -> void #c_call;
+    xDelUser:      #type (unknown0: *void) -> void #c_call;
     aCoord:        *sqlite3_rtree_dbl;
     anQueue:       *u32;
     nCoord:        s32;
@@ -1214,52 +1217,52 @@ Fts5PhraseIter :: struct {
 Fts5ExtensionApi :: struct {
     iVersion:           s32;
 
-    xUserData:          #type (unk0: *Fts5Context) -> *void #c_call;
+    xUserData:          #type (unknown0: *Fts5Context) -> *void #c_call;
 
-    xColumnCount:       #type (unk0: *Fts5Context) -> s32 #c_call;
-    xRowCount:          #type (unk0: *Fts5Context, pnRow: *sqlite3_int64) -> s32 #c_call;
-    xColumnTotalSize:   #type (unk0: *Fts5Context, iCol: s32, pnToken: *sqlite3_int64) -> s32 #c_call;
+    xColumnCount:       #type (unknown0: *Fts5Context) -> s32 #c_call;
+    xRowCount:          #type (unknown0: *Fts5Context, pnRow: *sqlite3_int64) -> s32 #c_call;
+    xColumnTotalSize:   #type (unknown0: *Fts5Context, iCol: s32, pnToken: *sqlite3_int64) -> s32 #c_call;
 
-    xTokenize:          #type (unk0: *Fts5Context, pText: *u8, nText: s32, pCtx: *void, xToken: #type (unk0: *void, unk1: s32, unk2: *u8, unk3: s32, unk4: s32, unk5: s32) -> s32 #c_call) -> s32 #c_call;
+    xTokenize:          #type (unknown0: *Fts5Context, pText: *u8, nText: s32, pCtx: *void, xToken: #type (unknown0: *void, unknown1: s32, unknown2: *u8, unknown3: s32, unknown4: s32, unknown5: s32) -> s32 #c_call) -> s32 #c_call;
 
-    xPhraseCount:       #type (unk0: *Fts5Context) -> s32 #c_call;
-    xPhraseSize:        #type (unk0: *Fts5Context, iPhrase: s32) -> s32 #c_call;
+    xPhraseCount:       #type (unknown0: *Fts5Context) -> s32 #c_call;
+    xPhraseSize:        #type (unknown0: *Fts5Context, iPhrase: s32) -> s32 #c_call;
 
-    xInstCount:         #type (unk0: *Fts5Context, pnInst: *s32) -> s32 #c_call;
-    xInst:              #type (unk0: *Fts5Context, iIdx: s32, piPhrase: *s32, piCol: *s32, piOff: *s32) -> s32 #c_call;
+    xInstCount:         #type (unknown0: *Fts5Context, pnInst: *s32) -> s32 #c_call;
+    xInst:              #type (unknown0: *Fts5Context, iIdx: s32, piPhrase: *s32, piCol: *s32, piOff: *s32) -> s32 #c_call;
 
-    xRowid:             #type (unk0: *Fts5Context) -> sqlite3_int64 #c_call;
-    xColumnText:        #type (unk0: *Fts5Context, iCol: s32, pz: **u8, pn: *s32) -> s32 #c_call;
-    xColumnSize:        #type (unk0: *Fts5Context, iCol: s32, pnToken: *s32) -> s32 #c_call;
+    xRowid:             #type (unknown0: *Fts5Context) -> sqlite3_int64 #c_call;
+    xColumnText:        #type (unknown0: *Fts5Context, iCol: s32, pz: **u8, pn: *s32) -> s32 #c_call;
+    xColumnSize:        #type (unknown0: *Fts5Context, iCol: s32, pnToken: *s32) -> s32 #c_call;
 
-    xQueryPhrase:       #type (unk0: *Fts5Context, iPhrase: s32, pUserData: *void, unk1: #type (unk0: *Fts5ExtensionApi, unk1: *Fts5Context, unk2: *void) -> s32 #c_call) -> s32 #c_call;
+    xQueryPhrase:       #type (unknown0: *Fts5Context, iPhrase: s32, pUserData: *void, unknown1: #type (unknown0: *Fts5ExtensionApi, unknown1: *Fts5Context, unknown2: *void) -> s32 #c_call) -> s32 #c_call;
 
-    xSetAuxdata:        #type (unk0: *Fts5Context, pAux: *void, xDelete: #type (unk0: *void) -> void #c_call) -> s32 #c_call;
-    xGetAuxdata:        #type (unk0: *Fts5Context, bClear: s32) -> *void #c_call;
+    xSetAuxdata:        #type (unknown0: *Fts5Context, pAux: *void, xDelete: #type (unknown0: *void) -> void #c_call) -> s32 #c_call;
+    xGetAuxdata:        #type (unknown0: *Fts5Context, bClear: s32) -> *void #c_call;
 
-    xPhraseFirst:       #type (unk0: *Fts5Context, iPhrase: s32, unk1: *Fts5PhraseIter, unk2: *s32, unk3: *s32) -> s32 #c_call;
-    xPhraseNext:        #type (unk0: *Fts5Context, unk1: *Fts5PhraseIter, piCol: *s32, piOff: *s32) -> void #c_call;
+    xPhraseFirst:       #type (unknown0: *Fts5Context, iPhrase: s32, unknown1: *Fts5PhraseIter, unknown2: *s32, unknown3: *s32) -> s32 #c_call;
+    xPhraseNext:        #type (unknown0: *Fts5Context, unknown1: *Fts5PhraseIter, piCol: *s32, piOff: *s32) -> void #c_call;
 
-    xPhraseFirstColumn: #type (unk0: *Fts5Context, iPhrase: s32, unk1: *Fts5PhraseIter, unk2: *s32) -> s32 #c_call;
-    xPhraseNextColumn:  #type (unk0: *Fts5Context, unk1: *Fts5PhraseIter, piCol: *s32) -> void #c_call;
+    xPhraseFirstColumn: #type (unknown0: *Fts5Context, iPhrase: s32, unknown1: *Fts5PhraseIter, unknown2: *s32) -> s32 #c_call;
+    xPhraseNextColumn:  #type (unknown0: *Fts5Context, unknown1: *Fts5PhraseIter, piCol: *s32) -> void #c_call;
 }
 
 Fts5Tokenizer :: struct {}
 
 fts5_tokenizer :: struct {
-    xCreate:   #type (unk0: *void, azArg: **u8, nArg: s32, ppOut: **Fts5Tokenizer) -> s32 #c_call;
-    xDelete:   #type (unk0: *Fts5Tokenizer) -> void #c_call;
-    xTokenize: #type (unk0: *Fts5Tokenizer, pCtx: *void, flags: s32, pText: *u8, nText: s32, xToken: #type (pCtx: *void, tflags: s32, pToken: *u8, nToken: s32, iStart: s32, iEnd: s32) -> s32 #c_call) -> s32 #c_call;
+    xCreate:   #type (unknown0: *void, azArg: **u8, nArg: s32, ppOut: **Fts5Tokenizer) -> s32 #c_call;
+    xDelete:   #type (unknown0: *Fts5Tokenizer) -> void #c_call;
+    xTokenize: #type (unknown0: *Fts5Tokenizer, pCtx: *void, flags: s32, pText: *u8, nText: s32, xToken: #type (pCtx: *void, tflags: s32, pToken: *u8, nToken: s32, iStart: s32, iEnd: s32) -> s32 #c_call) -> s32 #c_call;
 }
 
 fts5_api :: struct {
     iVersion:         s32;
 
-    xCreateTokenizer: #type (pApi: *fts5_api, zName: *u8, pContext: *void, pTokenizer: *fts5_tokenizer, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #c_call;
+    xCreateTokenizer: #type (pApi: *fts5_api, zName: *u8, pContext: *void, pTokenizer: *fts5_tokenizer, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #c_call;
 
     xFindTokenizer:   #type (pApi: *fts5_api, zName: *u8, ppContext: **void, pTokenizer: *fts5_tokenizer) -> s32 #c_call;
 
-    xCreateFunction:  #type (pApi: *fts5_api, zName: *u8, pContext: *void, xFunction: fts5_extension_function, xDestroy: #type (unk0: *void) -> void #c_call) -> s32 #c_call;
+    xCreateFunction:  #type (pApi: *fts5_api, zName: *u8, pContext: *void, xFunction: fts5_extension_function, xDestroy: #type (unknown0: *void) -> void #c_call) -> s32 #c_call;
 }
 
 #scope_file
